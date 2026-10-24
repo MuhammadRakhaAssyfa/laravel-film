@@ -7,5 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
+    protected $fillable = ['umur', 'bio', 'alamat'];
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
     use HasFactory;
 }

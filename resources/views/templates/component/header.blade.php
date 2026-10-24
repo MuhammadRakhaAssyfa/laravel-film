@@ -11,7 +11,7 @@
     </div>
     <div class="w3l_sign_in_register">
       <ul>
-        <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+        <li><a href="{{ route('login.login') }}">Login</a></li>
       </ul>
     </div>
     <div class="clearfix"> </div>
