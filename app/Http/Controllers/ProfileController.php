@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use App\Http\Requests\StoreProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -35,25 +36,32 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Profile $profile)
+    public function show()
     {
-        //
+        $user = Auth::user();
+        $profile = $user->profile;
+
+        return view('profile.show', compact('user', 'profile'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Profile $profile)
+    public function edit()
     {
-        //
+        $profile = Auth::user()->profile;
+
+        return view('profile.edit', compact('profile'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfileRequest $request, Profile $profile)
+    public function update(UpdateProfileRequest $request)
     {
-        //
+        Auth::user()->profile->update($request->only(['umur', 'bio', 'alamat']));
+
+        return redirect()->route('profile.show')->with(['success' => 'Profil berhasil diupdate']);
     }
 
     /**

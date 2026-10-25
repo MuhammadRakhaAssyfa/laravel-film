@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Peran;
+use App\Models\{
+    Peran,
+    Film,
+    Cast,
+};
 use App\Http\Requests\StorePeranRequest;
 use App\Http\Requests\UpdatePeranRequest;
 
@@ -13,7 +17,8 @@ class PeranController extends Controller
      */
     public function index()
     {
-        //
+        $perans = Peran::with(['film', 'cast'])->orderByDesc('id')->paginate(10);
+        return view('peran.index', compact('perans'));
     }
 
     /**
@@ -21,7 +26,9 @@ class PeranController extends Controller
      */
     public function create()
     {
-        //
+        $films = Film::select('id', 'title')->orderBy('title')->get();
+        $casts = Cast::select('id', 'name')->orderBy('name')->get();
+        return view('peran.create', compact('films', 'casts'));
     }
 
     /**
@@ -29,7 +36,9 @@ class PeranController extends Controller
      */
     public function store(StorePeranRequest $request)
     {
-        //
+        Peran::create($request->only(['actor', 'film_id', 'cast_id']));
+
+        return redirect()->route('peran.index')->with(['success' => 'Data peran berhasil ditambahkan']);
     }
 
     /**
@@ -45,7 +54,9 @@ class PeranController extends Controller
      */
     public function edit(Peran $peran)
     {
-        //
+        $films = Film::select('id', 'title')->orderBy('title')->get();
+        $casts = Cast::select('id', 'name')->orderBy('name')->get();
+        return view('peran.edit', compact('peran', 'films', 'casts'));
     }
 
     /**
@@ -53,7 +64,9 @@ class PeranController extends Controller
      */
     public function update(UpdatePeranRequest $request, Peran $peran)
     {
-        //
+        $peran->update($request->only(['actor', 'film_id', 'cast_id']));
+
+        return redirect()->route('peran.index')->with(['success' => 'Data peran berhasil diupdate']);
     }
 
     /**
@@ -61,6 +74,8 @@ class PeranController extends Controller
      */
     public function destroy(Peran $peran)
     {
-        //
+        $peran->delete();
+
+        return redirect()->route('peran.index')->with(['success' => 'Data peran berhasil dihapus']);
     }
 }

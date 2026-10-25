@@ -6,6 +6,11 @@ use App\Http\Controllers\{
     RegisterController,
     AuthController,
     DashboardController,
+    GenreController,
+    CastController,
+    PeranController,
+    KritikController,
+    ProfileController,
 };
 
 Route::get('/', [FilmController::class, 'movieHome'])->name('home');
@@ -28,3 +33,30 @@ Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard/user', 'user')->name('dashboard.user');
     Route::get('/dashboard/admin', 'admin')->name('dashboard.admin');
 });
+
+Route::controller(GenreController::class)
+    ->middleware(['auth', 'can:admin'])
+    ->group(function () {
+        Route::get('/genre', 'index')->name('genre.index');
+        Route::get('/genre/create', 'create')->name('genre.create');
+        Route::post('/genre', 'store')->name('genre.store');
+        Route::get('/genre/{id}/edit', 'edit')->name('genre.edit');
+        Route::put('/genre/{id}', 'update')->name('genre.update');
+        Route::delete('/genre/{id}', 'destroy')->name('genre.delete');
+    });
+
+Route::resource('cast', CastController::class)->middleware(['auth', 'can:admin']);
+Route::resource('film', FilmController::class)->except('show')->middleware(['auth', 'can:admin']);
+Route::resource('peran', PeranController::class)->except('show')->middleware(['auth', 'can:admin']);
+
+Route::post('/kritik', [KritikController::class, 'store'])
+    ->name('kritik.store')
+    ->middleware(['auth', 'can:user']);
+
+Route::controller(ProfileController::class)
+    ->middleware(['auth', 'can:user'])
+    ->group(function () {
+        Route::get('/profile', 'show')->name('profile.show');
+        Route::get('/profile/edit', 'edit')->name('profile.edit');
+        Route::put('/profile', 'update')->name('profile.update');
+    });

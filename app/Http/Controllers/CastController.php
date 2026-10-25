@@ -8,59 +8,52 @@ use App\Http\Requests\UpdateCastRequest;
 
 class CastController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // daftar semua cast
     public function index()
     {
-        //
+        $casts = Cast::select('id', 'name', 'age')->get();
+        return view('cast.index', compact('casts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // form tambah
     public function create()
     {
-        //
+        return view('cast.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCastRequest $request)
+    // simpan data baru
+    public function store(StoreCastRequest $request, Cast $cast)
     {
-        //
+        $cast->create($request->all());
+
+        return redirect()->route('cast.index')->with(['success' => 'Data '.$request['name'].' berhasil disimpan']);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // detail satu cast
     public function show(Cast $cast)
     {
-        //
+        return view('cast.show', compact('cast'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // form edit
     public function edit(Cast $cast)
     {
-        //
+        return view('cast.edit', compact('cast'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // simpan perubahan
     public function update(UpdateCastRequest $request, Cast $cast)
     {
-        //
+        $cast->update($request->all());
+
+        return redirect()->route('cast.index')->with(['success' => 'Data '.$request['name'].' berhasil diupdate']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // hapus
     public function destroy(Cast $cast)
     {
-        //
+        $cast->delete();
+
+        return redirect()->route('cast.index')->with(['success' => 'Data berhasil dihapus']);
     }
 }

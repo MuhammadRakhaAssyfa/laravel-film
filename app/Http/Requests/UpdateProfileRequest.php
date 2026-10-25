@@ -11,7 +11,7 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'umur'   => 'required|numeric|min:5',
+            'bio'    => 'required|min:20',
+            'alamat' => 'required|min:30',
         ];
     }
 }

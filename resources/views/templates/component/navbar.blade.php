@@ -36,7 +36,17 @@
               </ul>
             </li>
             <li class="w3_home_act {{ Route::current()->getName() == 'movies' ? 'active' : '' }}"><a href="{{ route('movies') }}">Movies</a></li>
-
+            @can('admin')
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kelola Data <b class="caret"></b></a>
+                <ul class="dropdown-menu" style="min-width: 100%; text-align: center; padding: 10px 0;">
+                  <li><a href="{{ route('film.index') }}">Film</a></li>
+                  <li><a href="{{ route('genre.index') }}">Genre</a></li>
+                  <li><a href="{{ route('cast.index') }}">Pemeran</a></li>
+                  <li><a href="{{ route('peran.index') }}">Peran</a></li>
+                </ul>
+              </li>
+            @endcan
           </ul>
         </nav>
       </div>

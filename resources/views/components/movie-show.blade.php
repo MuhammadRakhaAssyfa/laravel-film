@@ -59,7 +59,7 @@
                       <tbody>
                         @foreach ($perans as $peran)
                         <tr>
-                          <td class="w3-list-info">{{ $peran->cast_id }}</td>
+                          <td class="w3-list-info">{{ $peran->cast->name }}</td>
                           <td class="w3-list-info">{{ $peran->actor }}</td>
                         </tr>
                         @endforeach
@@ -118,26 +118,55 @@
           <div class="all-comments-info">
             <a href="#">Comments</a>
             <div class="agile-info-wthree-box">
-              <form>
-                <input type="text" placeholder="Name" required="">			           					   
-                <input type="text" placeholder="Email" required="">
-                <input type="text" placeholder="Phone" required="">
-                <textarea placeholder="Message" required=""></textarea>
-                <input type="submit" value="SEND">
-                <div class="clearfix"> </div>
-              </form>
+              @if ($message = Session::get('success'))
+                <div class="alert alert-success">{{ $message }}</div>
+              @endif
+
+              @guest
+                <p>Silakan <a href="{{ route('login.login') }}">login</a> untuk memberi komentar.</p>
+              @endguest
+
+              @can('admin')
+                <p>Admin tidak dapat memberi komentar.</p>
+              @endcan
+
+              @can('user')
+                <form action="{{ route('kritik.store') }}" method="post">
+                  @csrf
+                  <input type="hidden" name="film_id" value="{{ $film->id }}">
+
+                  <select name="rating" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                    <option value="">-- Pilih Rating --</option>
+                    @for ($i = 5; $i >= 1; $i--)
+                      <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
+                  </select>
+                  @error('rating')
+                    <p style="color: red;">{{ $message }}</p>
+                  @enderror
+
+                  <textarea name="comment" placeholder="Tulis komentar (minimal 5 karakter)">{{ old('comment') }}</textarea>
+                  @error('comment')
+                    <p style="color: red;">{{ $message }}</p>
+                  @enderror
+
+                  <input type="submit" value="SEND">
+                  <div class="clearfix"> </div>
+                </form>
+              @endcan
             </div>
           </div>
           <div class="media-grids">
             @foreach ($comments as $comment)
               <div class="media">
-                <h5>{{ $comment->user_id }}</h5>
+                <h5>{{ $comment->user->name }}</h5>
                 <div class="media-left">
                   <a href="#">
                     <img src="{{ asset('storage/images/user.jpg') }}" title="One movies" alt=" " />
                   </a>
                 </div>
                 <div class="media-body">
+                  <p><strong>Rating: {{ $comment->rating }}/5</strong></p>
                   <p>{{ $comment->comment }}</p>
                 </div>
               </div>

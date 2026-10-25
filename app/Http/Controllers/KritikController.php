@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kritik;
 use App\Http\Requests\StoreKritikRequest;
 use App\Http\Requests\UpdateKritikRequest;
+use Illuminate\Support\Facades\Auth;
 
 class KritikController extends Controller
 {
@@ -29,7 +30,14 @@ class KritikController extends Controller
      */
     public function store(StoreKritikRequest $request)
     {
-        //
+        Kritik::create([
+            'comment' => $request->comment,
+            'rating'  => $request->rating,
+            'film_id' => $request->film_id,
+            'user_id' => Auth::id(),
+        ]);
+
+        return back()->with(['success' => 'Komentar berhasil ditambahkan']);
     }
 
     /**
