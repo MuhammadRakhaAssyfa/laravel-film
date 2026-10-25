@@ -44,6 +44,7 @@
                   <li><a href="{{ route('genre.index') }}">Genre</a></li>
                   <li><a href="{{ route('cast.index') }}">Pemeran</a></li>
                   <li><a href="{{ route('peran.index') }}">Peran</a></li>
+                  <li><a href="{{ route('users.index') }}">Data User</a></li>
                 </ul>
               </li>
             @endcan

@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     PeranController,
     KritikController,
     ProfileController,
+    UserController,
 };
 
 Route::get('/', [FilmController::class, 'movieHome'])->name('home');
@@ -60,3 +61,7 @@ Route::controller(ProfileController::class)
         Route::get('/profile/edit', 'edit')->name('profile.edit');
         Route::put('/profile', 'update')->name('profile.update');
     });
+
+Route::get('/users', [UserController::class, 'index'])
+    ->name('users.index')
+    ->middleware(['auth', 'can:admin']);

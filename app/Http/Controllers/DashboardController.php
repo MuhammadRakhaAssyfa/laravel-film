@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Film;
 
 class DashboardController extends Controller
 {
@@ -15,7 +16,9 @@ class DashboardController extends Controller
                 abort(403);
             }
 
-            return view('dashboard.user');
+            $films = Film::with('genre')->orderByDesc('year')->paginate(10);
+
+            return view('dashboard.user', compact('films'));
         }
 
         return redirect()->route('login.login')
