@@ -18,6 +18,7 @@ Route::get('/', [FilmController::class, 'movieHome'])->name('home');
 Route::get('/movies', [FilmController::class, 'movies'])->name('movies');
 Route::get('/movies/{film}', [FilmController::class, 'show'])->name('movies.show');
 Route::get('/movies/genre/{genre}', [FilmController::class, 'moviesByGenre'])->name('genre');
+Route::get('/search', [FilmController::class, 'search'])->name('movies.search');
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'login')->name('login.login');
@@ -61,7 +62,3 @@ Route::controller(ProfileController::class)
         Route::get('/profile/edit', 'edit')->name('profile.edit');
         Route::put('/profile', 'update')->name('profile.update');
     });
-
-Route::get('/users', [UserController::class, 'index'])
-    ->name('users.index')
-    ->middleware(['auth', 'can:admin']);

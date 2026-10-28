@@ -2,8 +2,7 @@
 
 @section('content')
 <div class="container" style="padding: 40px 0;">
-    <h3>Dashboard User</h3>
-    <p>Halo, {{ Auth::user()->name }}!</p>
+    <h3><b>Halo, {{ Auth::user()->name }}!</b></h3>
     <p><a href="{{ route('profile.show') }}" class="btn btn-info btn-sm">Profil Saya</a></p>
 
     <h4 style="margin-top: 30px;">Daftar Film</h4>

@@ -1514,3 +1514,9 @@ h3.head {
 		font-size: 1.8em;
 	}
 }
+
+.w3l-movie-gride-agile a img {
+  width: 100% !important;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}

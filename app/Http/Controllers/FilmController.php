@@ -11,6 +11,7 @@ use App\Models\{
 use App\Http\Requests\StoreFilmRequest;
 use App\Http\Requests\UpdateFilmRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class FilmController extends Controller
 {
@@ -143,6 +144,20 @@ class FilmController extends Controller
                 ->OrderBy('created_at', 'asc')
                 ->paginate(18);
         return view('components/movies', compact('films','genreFilm'));
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = trim((string) $request->query('q'));
+        $genreFilm = null;
+
+        $films = Film::select('id', 'title', 'poster', 'year')
+                ->where('title', 'like', '%'.$keyword.'%')
+                ->orderByDesc('year')
+                ->paginate(18)
+                ->withQueryString();
+
+        return view('components/movies', compact('films', 'genreFilm', 'keyword'));
     }
 
     public function index()

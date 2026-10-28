@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Film;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -34,8 +35,11 @@ class DashboardController extends Controller
                 abort(403);
             }
 
-            return view('dashboard.admin');
+            $users = User::with(['role', 'profile'])->orderBy('id')->paginate(10);
+
+            return view('dashboard.admin', compact('users'));
         }
+    
 
         return redirect()->route('login.login')
             ->withErrors([

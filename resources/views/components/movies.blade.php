@@ -8,17 +8,21 @@
           <!--/browse-agile-w3ls -->
           <div class="browse-agile-w3ls general-w3ls">
             <div class="tittle-head">
-              @if ($genreFilm !== null)
-                      <h4 class="latest-text">Movies Of Genre {{ $genreFilm->name }}</h4>
-                    @else
-                      <h4 class="latest-text">List Of Movies</h4>
-                    @endif
+              @if (isset($keyword))
+                <h4 class="latest-text">Hasil pencarian: {{ $keyword }}</h4>
+              @elseif ($genreFilm !== null)
+                <h4 class="latest-text">Movies Of Genre {{ $genreFilm->name }}</h4>
+              @else
+                <h4 class="latest-text">List Of Movies</h4>
+              @endif
               <div class="container">
                 <div class="agileits-single-top">
                   <ol class="breadcrumb">
                     <li><a href="{{ route('home') }}">Home</a></li>
                     <li><a href="{{ route('movies') }}">Movies</a></li>
-                    @if ($genreFilm !== null)
+                    @if (isset($keyword))
+                      <li class="active">Pencarian</li>
+                    @elseif ($genreFilm !== null)
                       <li class="active">Genre {{ $genreFilm->name }}</li>
                     @else
                       <li class="active">All Movies</li>
@@ -49,8 +53,6 @@
                           <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
                           <li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
                           <li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-                            
-                  
                       </ul>
                     </div>
                     <div class="clearfix"></div>
@@ -63,6 +65,9 @@
                 @endif
               </div>
                 @endfor
+                @if ($films->isEmpty())
+                  <p>Film tidak ditemukan.</p>
+                @endif
               <div class="clearfix"> </div>
             </div>
               </div>
@@ -89,7 +94,7 @@
                               <span class="frist" aria-hidden="true">{{ $numberPage }}</span>
                             </li>
                           @else
-                            <li><a href="?page={{ $numberPage }}" class="frist">{{ $numberPage }}</a></li>
+                            <li><a href="{{ $films->url($numberPage) }}" class="frist">{{ $numberPage }}</a></li>
                           @endif
                         @endfor
                         {{-- Number Page/> --}}
