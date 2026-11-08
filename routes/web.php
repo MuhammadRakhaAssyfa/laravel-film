@@ -56,7 +56,7 @@ Route::post('/kritik', [KritikController::class, 'store'])
     ->middleware(['auth', 'can:user']);
 
 Route::controller(ProfileController::class)
-    ->middleware(['auth', 'can:user'])
+    ->middleware(['auth'])
     ->group(function () {
         Route::get('/profile', 'show')->name('profile.show');
         Route::get('/profile/edit', 'edit')->name('profile.edit');

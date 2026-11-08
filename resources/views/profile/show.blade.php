@@ -39,7 +39,7 @@
             </div>
 
             <a href="{{ route('profile.edit') }}" class="btn btn-warning">Edit Profil</a>
-            <a href="{{ route('dashboard.user') }}" style="margin-left: 15px;">Kembali</a>
+            <a href="{{ route('home') }}" style="margin-left: 15px;">Kembali</a>
         </div>
     </div>
 </div>

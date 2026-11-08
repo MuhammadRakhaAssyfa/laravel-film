@@ -13,9 +13,9 @@ use App\Models\{
 class RegisterController extends Controller
 {
     // form registrasi
-    public function create()
+    public function create(Request $request)
     {
-        return view('auth.register');
+        return redirect()->route('home')->with('open_modal', 'register');
     }
 
     // simpan data registrasi

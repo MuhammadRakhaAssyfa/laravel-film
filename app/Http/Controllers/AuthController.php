@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     // tampilkan form login
-    public function login()
+    public function login(Request $request)
     {
-        return view('auth.login');
+        $request->session()->reflash();
+
+        return redirect()->route('home')->with('open_modal', 'login');
     }
 
-    // cek email dan password
     public function authenticate(StoreAuthRequest $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -34,13 +35,12 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    // keluar dari sistem
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.login')->withSuccess('Anda Telah Keluar Dari Sistem');
+        return redirect()->route('home')->with('logout_msg', 'Anda telah keluar dari sistem');
     }
 }
