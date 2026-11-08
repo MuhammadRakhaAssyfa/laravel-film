@@ -1,42 +1,50 @@
 @extends('templates.index')
 
 @section('content')
+<style>
+  .form-module .page-error {
+    color: red;
+    margin: -12px 0 15px;
+    font-size: 13px;
+  }
+</style>
+
 <div class="container" style="padding: 40px 0;">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <h3>Login</h3>
+  <div class="w3_login_module" style="max-width: 600px; margin: 0 auto;">
+    <div class="module form-module">
 
-            @if ($message = Session::get('success'))
-                <div class="alert alert-success">{{ $message }}</div>
-            @endif
+      <div class="form" style="display: block;">
+        <h3>Login to your account</h3>
 
-            @error('notif')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
+        @if (session('success'))
+          <p style="color: green; margin-top: 0;">{{ session('success') }}</p>
+        @endif
 
-            <form action="{{ route('login.authenticate') }}" method="post">
-                @csrf
+        @error('notif')
+          <p class="page-error" style="margin-top: 0;">{{ $message }}</p>
+        @enderror
 
-                <div class="form-group @error('email') has-error @enderror">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
-                    @error('email')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+        <form action="{{ route('login.authenticate') }}" method="post">
+          @csrf
 
-                <div class="form-group @error('password') has-error @enderror">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                    @error('password')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+          <input type="email" name="email" placeholder="Email" value="{{ old('email') }}">
+          @error('email')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
 
-                <button type="submit" class="btn btn-primary">Login</button>
-                <a href="{{ route('register.create') }}" style="margin-left: 15px;">Daftar akun baru</a>
-            </form>
-        </div>
+          <input type="password" name="password" placeholder="Password">
+          @error('password')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
+
+          <input type="submit" value="Login">
+        </form>
+
+        <p style="text-align: center; margin: 20px 0 0;">
+          Belum punya akun? <a href="{{ route('register.create') }}">Daftar akun baru</a>
+        </p>
+      </div>
     </div>
+  </div>
 </div>
 @endsection

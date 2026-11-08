@@ -1,71 +1,76 @@
 @extends('templates.index')
 
 @section('content')
+<style>
+  /* textarea mengikuti gaya kotak isian template */
+  .form-module .form textarea {
+    outline: none;
+    display: block;
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    margin: 0 0 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .form-module .page-error {
+    color: red;
+    margin: -12px 0 15px;
+    font-size: 13px;
+  }
+</style>
+
 <div class="container" style="padding: 40px 0;">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h3>Daftar Akun Baru</h3>
+  <div class="w3_login_module" style="max-width: 600px; margin: 0 auto;">
+    <div class="module form-module">
 
-            <form action="{{ route('register.store') }}" method="post">
-                @csrf
+      <div class="form" style="display: block;">
+        <h3>Create an account</h3>
 
-                <div class="form-group @error('name') has-error @enderror">
-                    <label for="name">Nama</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Nama lengkap">
-                    @error('name')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+        <form action="{{ route('register.store') }}" method="post">
+          @csrf
 
-                <div class="form-group @error('email') has-error @enderror">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
-                    @error('email')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+          <input type="text" name="name" placeholder="Nama lengkap" value="{{ old('name') }}">
+          @error('name')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
 
-                <div class="form-group @error('password') has-error @enderror">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Minimal 6 karakter">
-                    @error('password')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+          <input type="email" name="email" placeholder="Email" value="{{ old('email') }}">
+          @error('email')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
 
-                <div class="form-group">
-                    <label for="password_confirmation">Ulangi Password</label>
-                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Ketik ulang password">
-                </div>
+          <input type="password" name="password" placeholder="Password (minimal 6 karakter)">
+          @error('password')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
 
-                <div class="form-group @error('age') has-error @enderror">
-                    <label for="age">Umur</label>
-                    <input type="number" class="form-control" id="age" name="age" value="{{ old('age') }}" placeholder="Umur">
-                    @error('age')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+          <input type="password" name="password_confirmation" placeholder="Ulangi password">
 
-                <div class="form-group @error('bio') has-error @enderror">
-                    <label for="bio">Bio</label>
-                    <textarea class="form-control" id="bio" name="bio" rows="3" placeholder="Minimal 20 karakter">{{ old('bio') }}</textarea>
-                    @error('bio')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+          <input type="text" inputmode="numeric" name="age" placeholder="Umur" value="{{ old('age') }}">
+          @error('age')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
 
-                <div class="form-group @error('alamat') has-error @enderror">
-                    <label for="alamat">Alamat</label>
-                    <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Minimal 30 karakter">{{ old('alamat') }}</textarea>
-                    @error('alamat')
-                        <span class="help-block">{{ $message }}</span>
-                    @enderror
-                </div>
+          <textarea name="bio" rows="3" placeholder="Bio (minimal 20 karakter)">{{ old('bio') }}</textarea>
+          @error('bio')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
 
-                <button type="submit" class="btn btn-primary">Daftar</button>
-                <a href="#" data-toggle="modal" data-target="#myModal" style="margin-left: 15px;">Saya sudah punya akun</a>
-            </form>
-        </div>
+          <textarea name="alamat" rows="3" placeholder="Alamat (minimal 30 karakter)">{{ old('alamat') }}</textarea>
+          @error('alamat')
+            <p class="page-error">{{ $message }}</p>
+          @enderror
+
+          <input type="submit" value="Register">
+        </form>
+
+        <p style="text-align: center; margin: 20px 0 0;">
+          Sudah punya akun? <a href="{{ route('login.login') }}">Saya sudah punya akun</a>
+        </p>
+      </div>
     </div>
+  </div>
 </div>
 @endsection
