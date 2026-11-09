@@ -4,13 +4,12 @@ Langkah-langkah yang harus dilakukan:
 1. Silahkan kalian fork untuk memasukan kedalam repository kalian masing-masing
 2. Setelah di fork silahkan kalian lakukan cloning dari repo hasil fork
 ```bash
-git clone nama-repo-masing-masing
+git clone https://github.com/MuhammadRakhaAssyfa/laravel-film.git
 cd dataweb
 ```
 3. Membuat file .env
 ```bash
 cp .env.example .env
-nano .env
 ```
 4. Atur koneksi database (pastikan databasenya sudah di buat terlebih dahulu)
 ```bash
@@ -30,7 +29,7 @@ php artisan key:generate
 ```
 7. Migration & Seeder
 ```bash
-php artisan migrate -s
+php artisan db:seed
 ```
 8. copy folder image yang ada pada folder public ke dalam folder storage/app
 9. Buat symlink untuk storage
